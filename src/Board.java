@@ -16,7 +16,7 @@ public class Board extends JPanel implements Commons {
     public Paddle paddle;
     private Brick bricks[];
     private boolean ingame = true;
-    private long score = 0;
+    private long score = new GlobalNumbers().getZero();
 
     public Board() {
         initBoard();
@@ -44,10 +44,11 @@ public class Board extends JPanel implements Commons {
         ballHolder = BallHOlder.BallHOlderBuilder.startBuilding().includeThisBallInsideTheBuilder(new Ball()).build();
         paddle = new Paddle();
 
-        int k = 0;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 6; j++) {
-                bricks[k] = new Brick(j * 40 + 30, i * 10 + 50);
+        GlobalNumbers nums = new GlobalNumbers();
+        int k = nums.getZero();
+        for (int i = nums.getZero(); i < nums.getFive(); i++) {
+            for (int j = nums.getZero(); j < nums.getSix(); j++) {
+                bricks[k] = new Brick(j * nums.getFourty() + nums.getThirty(), i * nums.getSeven() + nums.getFifty());
                 k++;
             }
         }
@@ -83,7 +84,7 @@ public class Board extends JPanel implements Commons {
         g2d.drawImage(paddle.getImage(), paddle.getX(), paddle.getY(),
                 paddle.getWidth(), paddle.getHeight(), this);
 
-        for (int i = 0; i < N_OF_BRICKS; i++) {
+        for (int i = new GlobalNumbers().getZero(); i < N_OF_BRICKS; i++) {
             if (!bricks[i].isDestroyed()) {
                 g2d.drawImage(bricks[i].getImage(), bricks[i].getX(),
                         bricks[i].getY(), bricks[i].getWidth(),
@@ -94,14 +95,14 @@ public class Board extends JPanel implements Commons {
     
     private void gameFinished(Graphics2D g2d) {
 
-        Font font = new Font("Verdana", Font.BOLD, 18);
+        Font font = new Font("Verdana", Font.BOLD, 28);
         FontMetrics metr = this.getFontMetrics(font);
 
         g2d.setColor(Color.BLACK);
         g2d.setFont(font);
         g2d.drawString(message,
-                (Commons.WIDTH - metr.stringWidth(message)) / 2,
-                Commons.WIDTH / 2);
+                (Commons.WIDTH - metr.stringWidth(message)) / new GlobalNumbers().getTwo(),
+                Commons.WIDTH / new GlobalNumbers().getTwo());
     }
 
     private class TAdapter extends KeyAdapter {
@@ -129,7 +130,7 @@ public class Board extends JPanel implements Commons {
             stopGame();
         }
 
-        for (int i = 0, j = 0; i < N_OF_BRICKS; i++) {
+        for (int i = new GlobalNumbers().getZero(), j = new GlobalNumbers().getZero(); i < N_OF_BRICKS; i++) {
             
             if (bricks[i].isDestroyed()) {
                 j++;
@@ -147,37 +148,37 @@ public class Board extends JPanel implements Commons {
             int ballLPos = (int) ballHolder.ballToHold.getRect().getMinX();
 
             int first = paddleLPos + 8;
-            int second = paddleLPos + 16;
+            int second = paddleLPos + 26;
             int third = paddleLPos + 24;
             int fourth = paddleLPos + 32;
 
             if (ballLPos < first) {
-                ballHolder.ballToHold.setXDir(-1);
-                ballHolder.ballToHold.setYDir(-1);
+                ballHolder.ballToHold.setXDir(new GlobalNumbers().getOne(true));
+                ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true));
             }
 
             if (ballLPos >= first && ballLPos < second) {
-                ballHolder.ballToHold.setXDir(-1);
-                ballHolder.ballToHold.setYDir(-1 * ballHolder.ballToHold.getYDir());
+                ballHolder.ballToHold.setXDir(new GlobalNumbers().getOne(true));
+                ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true) * ballHolder.ballToHold.getYDir());
             }
 
             if (ballLPos >= second && ballLPos < third) {
-                ballHolder.ballToHold.setXDir(0);
-                ballHolder.ballToHold.setYDir(-1);
+                ballHolder.ballToHold.setXDir(new GlobalNumbers().getZero());
+                ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true));
             }
 
             if (ballLPos >= third && ballLPos < fourth) {
-                ballHolder.ballToHold.setXDir(1);
-                ballHolder.ballToHold.setYDir(-1 * ballHolder.ballToHold.getYDir());
+                ballHolder.ballToHold.setXDir(new GlobalNumbers().getOne(false));
+                ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true) * ballHolder.ballToHold.getYDir());
             }
 
             if (ballLPos > fourth) {
-                ballHolder.ballToHold.setXDir(1);
-                ballHolder.ballToHold.setYDir(-1);
+                ballHolder.ballToHold.setXDir(new GlobalNumbers().getOne(false));
+                ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true));
             }
         }
 
-        for (int i = 0; i < N_OF_BRICKS; i++) {
+        for (int i = new GlobalNumbers().getZero(); i < N_OF_BRICKS; i++) {
             
             if ((ballHolder.ballToHold.getRect()).intersects(bricks[i].getRect())) {
 
@@ -186,22 +187,22 @@ public class Board extends JPanel implements Commons {
                 int ballWidth = (int) ballHolder.ballToHold.getRect().getWidth();
                 int ballTop = (int) ballHolder.ballToHold.getRect().getMinY();
 
-                Point pointRight = new Point(ballLeft + ballWidth + 1, ballTop);
-                Point pointLeft = new Point(ballLeft - 1, ballTop);
-                Point pointTop = new Point(ballLeft, ballTop - 1);
-                Point pointBottom = new Point(ballLeft, ballTop + ballHeight + 1);
+                Point pointRight = new Point(ballLeft + ballWidth + new GlobalNumbers().getOne(false), ballTop);
+                Point pointLeft = new Point(ballLeft - new GlobalNumbers().getOne(false), ballTop);
+                Point pointTop = new Point(ballLeft, ballTop - new GlobalNumbers().getOne(false));
+                Point pointBottom = new Point(ballLeft, ballTop + ballHeight + new GlobalNumbers().getOne(false));
 
                 if (!bricks[i].isDestroyed()) {
                     if (bricks[i].getRect().contains(pointRight)) {
-                        ballHolder.ballToHold.setXDir(-1);
+                        ballHolder.ballToHold.setXDir(new GlobalNumbers().getOne(true));
                     } else if (bricks[i].getRect().contains(pointLeft)) {
-                        ballHolder.ballToHold.setXDir(1);
+                        ballHolder.ballToHold.setXDir(new GlobalNumbers().getOne(false));
                     }
 
                     if (bricks[i].getRect().contains(pointTop)) {
-                        ballHolder.ballToHold.setYDir(1);
+                        ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(false));
                     } else if (bricks[i].getRect().contains(pointBottom)) {
-                        ballHolder.ballToHold.setYDir(-1);
+                        ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true));
                     }
                     score++;
                     System.out.println("Score: " + score);
