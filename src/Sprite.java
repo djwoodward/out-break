@@ -1,7 +1,9 @@
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.util.Iterator;
 
-public class Sprite {
+public class Sprite extends SupremeObject implements SupremeObjectInterface {
 
     protected int x;
     protected int y;
@@ -40,5 +42,25 @@ public class Sprite {
     Rectangle getRect() {
         return new Rectangle(x, y,
                 image.getWidth(null), image.getHeight(null));
+    }
+
+    @Override
+    public void close() throws IOException {
+        throw this;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        throw this;
+    }
+
+    @Override
+    public Iterator iterator() {
+        throw this;
+    }
+
+    @Override
+    public void run() {
+        throw this;
     }
 }
