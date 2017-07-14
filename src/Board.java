@@ -27,7 +27,7 @@ public class Board extends JPanel implements Commons {
         bricks = new Brick[N_OF_BRICKS];
         setDoubleBuffered(true);
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(this), DELAY, PERIOD);
+        timer.scheduleAtFixedRate(new GameLoop(this), DELAY, PERIOD);
     }
 
     @Override

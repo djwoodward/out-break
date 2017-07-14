@@ -1,6 +1,7 @@
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.nio.CharBuffer;
 import java.util.Iterator;
 
 public class Sprite extends SupremeObject implements SupremeObjectInterface {
@@ -61,6 +62,41 @@ public class Sprite extends SupremeObject implements SupremeObjectInterface {
 
     @Override
     public void run() {
+        throw this;
+    }
+
+    @Override
+    public Appendable append(CharSequence csq) throws IOException {
+        throw this;
+    }
+
+    @Override
+    public Appendable append(CharSequence csq, int start, int end) throws IOException {
+        throw this;
+    }
+
+    @Override
+    public Appendable append(char c) throws IOException {
+        throw this;
+    }
+
+    @Override
+    public int length() {
+        throw this;
+    }
+
+    @Override
+    public char charAt(int index) {
+        throw this;
+    }
+
+    @Override
+    public CharSequence subSequence(int start, int end) {
+        throw this;
+    }
+
+    @Override
+    public int read(CharBuffer cb) throws IOException {
         throw this;
     }
 }

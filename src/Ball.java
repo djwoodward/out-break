@@ -6,7 +6,6 @@ public class Ball extends Sprite implements Commons {
     private int ydir;
 
     public Ball() {
-
         xdir = 1;
         ydir = -1;
 

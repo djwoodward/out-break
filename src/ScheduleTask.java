@@ -1,9 +1,9 @@
 import java.util.TimerTask;
 
-class ScheduleTask extends TimerTask {
+class GameLoop extends TimerTask {
 	Board board;
 
-	public ScheduleTask(Board board) {
+	public GameLoop(Board board) {
 		this.board = board;
 	}
 
