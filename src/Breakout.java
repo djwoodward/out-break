@@ -1,4 +1,6 @@
 import java.awt.EventQueue;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
 public class Breakout extends JFrame {
@@ -9,7 +11,6 @@ public class Breakout extends JFrame {
     }
     
     private void initUI() {
-        
         add(new Board());
         setTitle("Breakout");
         

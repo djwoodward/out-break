@@ -1,29 +1,21 @@
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Timer;
-import java.util.TimerTask;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 
 public class Board extends JPanel implements Commons {
 
     private Timer timer;
     private String message = "Game Over";
-    private Ball ball;
-    private Paddle paddle;
+    public Ball ball;
+    public Paddle paddle;
     private Brick bricks[];
     private boolean ingame = true;
     private long score = 0;
 
     public Board() {
-
         initBoard();
     }
 
@@ -35,7 +27,7 @@ public class Board extends JPanel implements Commons {
         bricks = new Brick[N_OF_BRICKS];
         setDoubleBuffered(true);
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), DELAY, PERIOD);
+        timer.scheduleAtFixedRate(new ScheduleTask(this), DELAY, PERIOD);
     }
 
     @Override
@@ -123,25 +115,13 @@ public class Board extends JPanel implements Commons {
         }
     }
 
-    private class ScheduleTask extends TimerTask {
-
-        @Override
-        public void run() {
-
-            ball.move();
-            paddle.move();
-            checkCollision();
-            repaint();
-        }
-    }
-
     private void stopGame() {
 
         ingame = false;
         timer.cancel();
     }
 
-    private void checkCollision() {
+    public void checkCollision() {
 
         if (ball.getRect().getMaxY() > Commons.BOTTOM_EDGE) {
             stopGame();
