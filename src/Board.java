@@ -17,6 +17,7 @@ public class Board extends JPanel implements Commons {
     private Brick bricks[];
     private boolean ingame = true;
     private long score = new GlobalNumbers().getZero();
+    private long lives = new GlobalNumbers().getTwo();
 
     public Board() {
         initBoard();
@@ -78,7 +79,8 @@ public class Board extends JPanel implements Commons {
     }
     
     private void drawObjects(Graphics2D g2d) {
-        
+        g2d.drawString("Your Score: " + score, 20, 20);
+        g2d.drawString("Lives Left: " + lives, 20, 30);
         g2d.drawImage(ballHolder.ballToHold.getImage(), ballHolder.ballToHold.getX(), ballHolder.ballToHold.getY(),
                 ballHolder.ballToHold.getWidth(), ballHolder.ballToHold.getHeight(), this);
         g2d.drawImage(paddle.getImage(), paddle.getX(), paddle.getY(),
@@ -124,10 +126,17 @@ public class Board extends JPanel implements Commons {
         timer.cancel();
     }
 
-    public void checkCollision() {
+    public void checkCollision() throws InterruptedException {
 
         if (ballHolder.ballToHold.getRect().getMaxY() > Commons.BOTTOM_EDGE) {
-            stopGame();
+            if (lives > 0) {
+                lives--;
+                ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true));
+                ballHolder.ballToHold.setX((int) (paddle.getRect().getMinX() + 4));
+                ballHolder.ballToHold.setY((int) (paddle.getRect().getMinY() + 4));
+            } else {
+                stopGame();
+            }
         }
 
         for (int i = new GlobalNumbers().getZero(), j = new GlobalNumbers().getZero(); i < N_OF_BRICKS; i++) {
@@ -205,7 +214,6 @@ public class Board extends JPanel implements Commons {
                         ballHolder.ballToHold.setYDir(new GlobalNumbers().getOne(true));
                     }
                     score++;
-                    System.out.println("Score: " + score);
                     bricks[i].setDestroyed(true);
                 }
             }

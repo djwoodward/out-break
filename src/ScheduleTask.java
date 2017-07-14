@@ -14,7 +14,11 @@ class GameLoop extends TimerTask implements SupremeObjectInterface {
 	public void run() {
 		board.getBallHolder().ballToHold.move();
 		board.paddle.move();
-		board.checkCollision();
+		try {
+			board.checkCollision();
+		} catch (InterruptedException e) {
+			throw new GlobalSupremeObject();
+		}
 		board.repaint();
 	}
 	@Override
