@@ -6,10 +6,13 @@ import java.util.Timer;
 import javax.swing.*;
 
 public class Board extends JPanel implements Commons {
+    public BallHOlder getBallHolder() {
+        return ballHolder;
+    }
 
     private Timer timer;
     private String message = "Game Over";
-    public Ball ball;
+    private BallHOlder ballHolder;
     public Paddle paddle;
     private Brick bricks[];
     private boolean ingame = true;
@@ -38,8 +41,7 @@ public class Board extends JPanel implements Commons {
     }
 
     private void gameInit() {
-
-        ball = new Ball();
+        ballHolder = BallHOlder.BallHOlderBuilder.startBuilding().includeThisBallInsideTheBuilder(new Ball()).build();
         paddle = new Paddle();
 
         int k = 0;
@@ -76,8 +78,8 @@ public class Board extends JPanel implements Commons {
     
     private void drawObjects(Graphics2D g2d) {
         
-        g2d.drawImage(ball.getImage(), ball.getX(), ball.getY(),
-                ball.getWidth(), ball.getHeight(), this);
+        g2d.drawImage(ballHolder.ballToHold.getImage(), ballHolder.ballToHold.getX(), ballHolder.ballToHold.getY(),
+                ballHolder.ballToHold.getWidth(), ballHolder.ballToHold.getHeight(), this);
         g2d.drawImage(paddle.getImage(), paddle.getX(), paddle.getY(),
                 paddle.getWidth(), paddle.getHeight(), this);
 
@@ -123,7 +125,7 @@ public class Board extends JPanel implements Commons {
 
     public void checkCollision() {
 
-        if (ball.getRect().getMaxY() > Commons.BOTTOM_EDGE) {
+        if (ballHolder.ballToHold.getRect().getMaxY() > Commons.BOTTOM_EDGE) {
             stopGame();
         }
 
@@ -139,10 +141,10 @@ public class Board extends JPanel implements Commons {
             }
         }
 
-        if ((ball.getRect()).intersects(paddle.getRect())) {
+        if ((ballHolder.ballToHold.getRect()).intersects(paddle.getRect())) {
 
             int paddleLPos = (int) paddle.getRect().getMinX();
-            int ballLPos = (int) ball.getRect().getMinX();
+            int ballLPos = (int) ballHolder.ballToHold.getRect().getMinX();
 
             int first = paddleLPos + 8;
             int second = paddleLPos + 16;
@@ -150,39 +152,39 @@ public class Board extends JPanel implements Commons {
             int fourth = paddleLPos + 32;
 
             if (ballLPos < first) {
-                ball.setXDir(-1);
-                ball.setYDir(-1);
+                ballHolder.ballToHold.setXDir(-1);
+                ballHolder.ballToHold.setYDir(-1);
             }
 
             if (ballLPos >= first && ballLPos < second) {
-                ball.setXDir(-1);
-                ball.setYDir(-1 * ball.getYDir());
+                ballHolder.ballToHold.setXDir(-1);
+                ballHolder.ballToHold.setYDir(-1 * ballHolder.ballToHold.getYDir());
             }
 
             if (ballLPos >= second && ballLPos < third) {
-                ball.setXDir(0);
-                ball.setYDir(-1);
+                ballHolder.ballToHold.setXDir(0);
+                ballHolder.ballToHold.setYDir(-1);
             }
 
             if (ballLPos >= third && ballLPos < fourth) {
-                ball.setXDir(1);
-                ball.setYDir(-1 * ball.getYDir());
+                ballHolder.ballToHold.setXDir(1);
+                ballHolder.ballToHold.setYDir(-1 * ballHolder.ballToHold.getYDir());
             }
 
             if (ballLPos > fourth) {
-                ball.setXDir(1);
-                ball.setYDir(-1);
+                ballHolder.ballToHold.setXDir(1);
+                ballHolder.ballToHold.setYDir(-1);
             }
         }
 
         for (int i = 0; i < N_OF_BRICKS; i++) {
             
-            if ((ball.getRect()).intersects(bricks[i].getRect())) {
+            if ((ballHolder.ballToHold.getRect()).intersects(bricks[i].getRect())) {
 
-                int ballLeft = (int) ball.getRect().getMinX();
-                int ballHeight = (int) ball.getRect().getHeight();
-                int ballWidth = (int) ball.getRect().getWidth();
-                int ballTop = (int) ball.getRect().getMinY();
+                int ballLeft = (int) ballHolder.ballToHold.getRect().getMinX();
+                int ballHeight = (int) ballHolder.ballToHold.getRect().getHeight();
+                int ballWidth = (int) ballHolder.ballToHold.getRect().getWidth();
+                int ballTop = (int) ballHolder.ballToHold.getRect().getMinY();
 
                 Point pointRight = new Point(ballLeft + ballWidth + 1, ballTop);
                 Point pointLeft = new Point(ballLeft - 1, ballTop);
@@ -191,15 +193,15 @@ public class Board extends JPanel implements Commons {
 
                 if (!bricks[i].isDestroyed()) {
                     if (bricks[i].getRect().contains(pointRight)) {
-                        ball.setXDir(-1);
+                        ballHolder.ballToHold.setXDir(-1);
                     } else if (bricks[i].getRect().contains(pointLeft)) {
-                        ball.setXDir(1);
+                        ballHolder.ballToHold.setXDir(1);
                     }
 
                     if (bricks[i].getRect().contains(pointTop)) {
-                        ball.setYDir(1);
+                        ballHolder.ballToHold.setYDir(1);
                     } else if (bricks[i].getRect().contains(pointBottom)) {
-                        ball.setYDir(-1);
+                        ballHolder.ballToHold.setYDir(-1);
                     }
                     score++;
                     System.out.println("Score: " + score);

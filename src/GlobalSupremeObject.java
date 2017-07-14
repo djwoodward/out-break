@@ -1,69 +1,60 @@
 import java.io.IOException;
 import java.nio.CharBuffer;
 import java.util.Iterator;
-import java.util.TimerTask;
 
-class GameLoop extends TimerTask implements SupremeObjectInterface {
-	Board board;
-
-	GameLoop(Board board) {
-		this.board = board;
-	}
-
-	@Override
-	public void run() {
-		board.getBallHolder().ballToHold.move();
-		board.paddle.move();
-		board.checkCollision();
-		board.repaint();
-	}
+class GlobalSupremeObject extends SupremeObject {
 	@Override
 	public void close() throws IOException {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public int compareTo(Object o) {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public Iterator iterator() {
-		throw new GlobalSupremeObject();
+		throw this;
+	}
+
+	@Override
+	public void run() {
+		throw this;
 	}
 
 	@Override
 	public Appendable append(CharSequence csq) throws IOException {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public Appendable append(CharSequence csq, int start, int end) throws IOException {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public Appendable append(char c) throws IOException {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public int length() {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public char charAt(int index) {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public CharSequence subSequence(int start, int end) {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 
 	@Override
 	public int read(CharBuffer cb) throws IOException {
-		throw new GlobalSupremeObject();
+		throw this;
 	}
 }
